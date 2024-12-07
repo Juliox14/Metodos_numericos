@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Gauss-Jordan{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/informacion.css') }}">
+{% endblock %}
+
+{% block content %}
+<section id="inicio" class="inicio">
+    <p>Calculadora</p>
+    <h1>Gauss-Jordan</h1>
+    <p>El método de Gauss-Jordan es un algoritmo del álgebra lineal para determinar las soluciones de un sistema de
+        ecuaciones lineales, encontrar matrices e inversas. </p>
+    <a href="{{ url_for('calculadora_gauss') }}">Ir a calculadora</a>
+</section>
+{% endblock %}

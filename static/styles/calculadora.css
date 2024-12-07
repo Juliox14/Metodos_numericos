@@ -1,0 +1,172 @@
+
+table {
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 10px;
+}
+
+
+.matriz_inputs input {
+    width: 50px;
+
+}
+
+.matriz_inputs td {
+    padding: 5px;
+}
+
+.matriz_inputs td label {
+    margin-left: 10px;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(300px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+.calculadora {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideIn 1s ease-out;
+    margin-top: 60px;
+}
+
+.calculadora h1 {
+    margin: 0;
+    font-size: 64px;
+    color: #eeecec;
+    margin-bottom: 20px;
+}
+
+.calculadora form {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.calculadora div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculadora div button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.calculadora div button:hover {
+    background-color: #1C4D19;
+    color: white;
+}
+
+select {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #3c3c3c;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 200px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+
+select:after {
+    content: '\25BC';
+    color: #ffffff;
+    padding-left: 10px;
+    position: absolute;
+    right: 20px;
+    top: calc(50% - 8px);
+}
+
+select:hover {
+    border-color: #5c5c5c;
+}
+
+select:focus {
+    border-color: #dfdede;
+}
+
+option {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.calculadora .tamaño_matriz{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.tamaño_matriz input{
+    width: 50px;
+    margin: 0 10px;
+}
+
+label {
+    margin: 20px 0;
+    color: #ffffff;
+}
+
+
+.matriz_inputs h2 {
+    margin: 20px 0;
+    color: #ffffff;
+}
+
+.matriz_inputs h3 {
+    margin-bottom: 0;
+    margin-top: 20px;
+    color: #ffffff;
+}
+
+.matriz_inputs h4 {
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+#boton_editar {
+    background-color: #1C4D19;
+    color: white;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+#boton_editar:hover {
+    background-color: #f4f4f4;
+    color: black;
+}
+
+.no-scroll {
+    overflow: hidden;
+}

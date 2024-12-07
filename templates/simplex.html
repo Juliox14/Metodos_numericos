@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Método Simplex - Calculadora{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/informacion.css') }}">
+{% endblock %}
+
+{% block content %}
+    <section id="inicio" class="inicio">
+        <p>Calculadora</p>
+        <h1>Método Simplex</h1>
+        <p>El método Simplex es un algoritmo para resolver problemas de programación lineal. Funciona en problemas que
+            pueden ser transformados en forma estándar.
+
+        </p> 
+        <a href="{{ url_for('calculadora_simplex') }}">Ir a calculadora</a>
+    </section>
+{% endblock %}

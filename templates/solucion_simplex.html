@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}Gauss-Jordan - Solución{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/solucion.css') }}">
+{% endblock %}
+
+{% block content %}
+<section id="solucion" class="solucion">
+
+    <div class="caja">
+        <div class="resultados_x">
+            <h1 style="color: #ededed;">Solución óptima</h1>
+            {% for key, value in resultados.items() %}
+            <p>{{ key }} = {{ value }}</p>
+            {% endfor %}
+        </div>
+        <button id="mostrarProcedimiento" onclick="mostrarProcedimiento()" class="boton">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-down" width="16"
+                height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 20l16 0" />
+                <path d="M12 14l0 -10" />
+                <path d="M12 14l4 -4" />
+                <path d="M12 14l-4 -4" />
+            </svg>
+            <p>Mostrar procedimiento</p>
+        </button>
+        <button id="ocultarProcedimiento" onclick="ocultarProcedimiento()" class="boton" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-up" width="16"
+                height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 10l0 10" />
+                <path d="M12 10l4 4" />
+                <path d="M12 10l-4 4" />
+                <path d="M4 4l16 0" />
+            </svg>
+            <p>Ocultar procedimiento</p>
+        </button>
+
+
+        <div class="procedimiento" id="procedimiento">
+            <hr style="width: 100%; border-color: #383838;">
+            <div class="entradaUsuario">
+                <h2>Tu entrada:</h2>
+                {% for ecu in entradaUsuario %}
+                <p class="ecu">{{ ecu }}</p>
+                {% endfor %}
+            </div>
+
+            {% for clave, valor in matricesProcesadas.items() %}
+            {% set variableDeEntrada = variablesDeEntrada[loop.index0] %}
+            {% set variableDeSalida = variablesDeSalida[loop.index0] %}
+            <div class="container">
+                <h3>{{ clave }}</h3>
+                <div class="matriz">
+                    <table border="1">
+                        <tr>
+                            <th>Variable básica</th>
+                            {% for var in variables %}
+                            {% if var == variableDeEntrada %}
+                            <th class="th-color">{{ var }}</th>
+                            {% else %}
+                            <th>{{ var }}</th>
+                            {% endif %}
+                            {% endfor %}
+                            <th>Solución</th>
+                        </tr>
+
+
+                        {% for fila in valor %}
+
+                        {% if fila[0] == variableDeSalida %}
+                        <tr class="columna-coloreada">
+                            {% else %}
+                        <tr>
+                            {% endif %}
+                            {% for columna in fila %}
+                            <td>{{ columna }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+
+                {% if variableDeEntrada and variableDeSalida %}
+                <div class="variables_entrada_salida">
+                    <p>Variable de entrada: <span>{{variableDeEntrada}}</span></p>
+                    <p>Variable de salida: <span>{{variableDeSalida}}</span></p>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="volver">
+        <a href="{{ url_for('calculadora_simplex') }}">Volver a la calculadora</a>
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function pintarColumna() {
+        // Obtener todos los <th> con la clase "th-color"
+        const ths = document.querySelectorAll('th.th-color');
+
+        // Iterar sobre cada <th> encontrado
+        ths.forEach(th => {
+            // Obtener el índice de la columna (1-based)
+            const columnIndex = Array.from(th.parentNode.children).indexOf(th) + 1;
+
+            // Log para verificar el índice
+            console.log(columnIndex);
+
+            // Seleccionar todas las filas de la tabla
+            const rows = th.closest('table').querySelectorAll('tr');
+
+            // Añadir la clase para colorear las celdas solo si tienen <td>
+            rows.forEach(row => {
+                const td = row.querySelector(`td:nth-child(${columnIndex})`);
+                if (td) { // Asegurarse de que la celda existe
+                    td.classList.add('columna-coloreada');
+                }
+            });
+        });
+    }
+    pintarColumna();
+
+    function mostrarProcedimiento() {
+        const mostrarProcedimiento = document.getElementById("mostrarProcedimiento");
+        mostrarProcedimiento.style.display = "none";
+        const ocultarProcedimiento = document.getElementById("ocultarProcedimiento");
+        ocultarProcedimiento.style.display = "flex";
+        const procedimiento = document.getElementById("procedimiento");
+        procedimiento.style.display = "block";
+
+
+    }
+    mostrarProcedimiento();
+
+    function ocultarProcedimiento() {
+        const mostrarProcedimiento = document.getElementById("mostrarProcedimiento");
+        mostrarProcedimiento.style.display = "flex";
+        const ocultarProcedimiento = document.getElementById("ocultarProcedimiento");
+        ocultarProcedimiento.style.display = "none";
+        const procedimiento = document.getElementById("procedimiento");
+        procedimiento.style.display = "none";
+    }
+</script>
+{% endblock %}

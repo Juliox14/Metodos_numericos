@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block title %}Gauss-Jordan - Calculadora{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/calculadora.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="calculadora">
+    <div>
+        <h1>Calculadora Gauss-Jordan</h1>
+        <form action="/solucion" method="POST" id="formulario">
+            <label for="numero_filas">Ingrese el tamaño de la matriz:</label>
+            <div class="tamaño_matriz">
+                <input type="number" name="numero_filas" id="numero_filas" aria-label="numero_filas" required> X
+                <input type="number" name="numero_columnas" id="numero_columnas" aria-label="numero_columnas" required>
+            </div>
+            <button type="button" onclick="generarCampos()">Generar Matriz</button>
+            <div id="matriz_inputs" class="matriz_inputs"></div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function generarCampos() {
+        const numero_filas = document.getElementById("numero_filas").value;
+        const numero_columnas = document.getElementById("numero_columnas").value;
+
+        const contenedor = document.getElementById("matriz_inputs");
+        
+        if (numero_filas === "" || numero_columnas === "") {
+            contenedor.innerHTML = "";
+        } else {
+            contenedor.innerHTML = "";
+            const tabla = document.createElement("table");
+
+            let contadorX = 1;
+
+            for (let i = 0; i < numero_filas; i++) {
+                const fila = document.createElement("tr");
+                for (let j = 0; j < numero_columnas; j++) {
+                    const celda = document.createElement("td");
+
+                    const input = document.createElement("input");
+                    input.type = "number";
+                    input.name = `matriz_${i}_${j}`;
+                    input.id = `input_${i}_${j}`;
+                    input.required = true;
+
+                    const label = document.createElement("label");
+
+                    if (j === numero_columnas - 1) {
+                        label.innerText = `b`;
+                    } else {
+                        label.innerText = `x${contadorX}`;
+                    }
+
+                    label.htmlFor = input.id;
+
+                    celda.appendChild(input);
+                    celda.appendChild(label);
+
+                    fila.appendChild(celda);
+
+                    if (j !== numero_columnas - 1) {
+                        contadorX++;
+                    }
+
+                    if (contadorX > numero_columnas - 1) {
+                        contadorX = 1;
+                    }
+                }
+
+                tabla.appendChild(fila);
+            }
+
+            contenedor.appendChild(tabla);
+
+            const botonEnviar = document.createElement("button");
+            botonEnviar.type = "submit";
+            botonEnviar.innerText = "Resolver Matriz";
+            contenedor.appendChild(botonEnviar);
+        }
+    }
+
+    function enviarFormulario() {
+        document.getElementById("formulario").submit(); 
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const formulario = document.getElementById("formulario");
+        formulario.addEventListener('submit', function (event) {
+            event.preventDefault();
+            enviarFormulario();
+        });
+    });
+</script>
+{% endblock %}

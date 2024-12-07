@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}Gauss-Jordan - Inicio{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/inicio.css') }}">
+{% endblock %}
+
+{% block content %}
+<section id="inicio" class="inicio">
+    <p>5° Semestre</p>
+    <h1>Investigación de Operaciones</h1>
+    <p>Este sitio web está dedicado a la resolución de problemas de optimización. Métodos: Gauss-Jordan y Simplex. Proximamente:Gran M </p>
+    <a href="{{ url_for('gauss') }}">Ir a calculadora</a>
+</section>
+
+<section id="redes_sociales" class="redes_sociales">
+    <!-- Linkedin -->
+    <a href="https://www.linkedin.com/in/julian-antonio-castro-alonso-a06438304/" target="_blank">
+        <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="Linkedin">
+    </a>
+    <!-- Github -->
+    <a href="https://github.com/Juliox14" target="_blank">
+        <img src="{{ url_for('static', filename='images/github.png') }}" alt="Github">
+    </a>
+</section>
+
+<span class="creditos">Desarrollo por: Julian Castro</span>
+{% endblock %}

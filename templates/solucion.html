@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+
+{% block title %}Gauss-Jordan - Solución{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/solucion.css') }}">
+{% endblock %}
+
+{% block content %}    
+    <section id="solucion" class="solucion">
+        {% if error == False %}
+        <div class="caja">
+            <div class="resultados_x">
+                <h1 style="color: #ededed;">Resultados</h1>
+                {% for resultado in resultados %}
+                <p>{{ resultado }}</p>
+                {% endfor %}
+            </div>
+            <button id="mostrarProcedimiento" onclick="mostrarProcedimiento()" class="boton">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-down" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M4 20l16 0" />
+                    <path d="M12 14l0 -10" />
+                    <path d="M12 14l4 -4" />
+                    <path d="M12 14l-4 -4" />
+                </svg>
+                <p>Mostrar procedimiento</p>
+            </button>
+            <button id="ocultarProcedimiento" onclick="ocultarProcedimiento()" class="boton" style="display: none;" >
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-up" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 10l0 10" />
+                    <path d="M12 10l4 4" />
+                    <path d="M12 10l-4 4" />
+                    <path d="M4 4l16 0" />
+                </svg>
+                <p>Ocultar procedimiento</p>
+            </button>
+            
+            
+            <div class="procedimiento" id="procedimiento">
+                <hr style="width: 100%; border-color: #383838;">
+                {% for clave, valor in matricesProcesadas.items() %}
+                <div class="container">
+                    <p>{{ clave }}</p>
+                    <div class="matriz">
+                        <table>
+                            <tr>
+                                {% for i in range (numero_columnas) %}
+                                    {% if i != numero_columnas - 1 %}
+                                        <th>x{{i+1}}</th>
+                                    {% else %}
+                                        <th>b</th>
+                                    {% endif %}
+                                    
+                                {% endfor %}
+                            </tr>
+                            {% for fila in valor %}
+                            <tr>
+                                {% for columna in fila %}
+                                <td>{{ columna }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="error">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+                <h1 style="margin-bottom: 0; font-size: 28px;">Resultado</h1>
+                {% for resultado in resultados %}
+                <p>{{ resultado }}</p>
+            </div>
+            {% endfor %}
+            <h2>¿Por qué un sistema de ecuaciones puede ser inconsistente al resolverlo por Gauss-Jordan?</h2>
+            <p>Al resolver un sistema de ecuaciones utilizando el método de Gauss-Jordan, podemos encontrarnos con
+                sistemas inconsistentes. Un sistema de ecuaciones es inconsistente cuando no tiene solución. Esto ocurre
+                debido a una contradicción entre las ecuaciones que lo conforman.</p>
+
+            <p>Existen dos casos principales que generan inconsistencia:</p>
+
+            <h3>1. Fila con todos los coeficientes cero, pero un término independiente distinto de cero:</h3>
+            <p>Si una de las ecuaciones en el sistema tiene todos sus coeficientes iguales a cero (es decir, no depende
+                de ninguna variable), pero el término independiente es distinto de cero, esto implica una contradicción.
+            </p>
+            <p>Ejemplo:</p>
+            <span>0x + 0y + 0z = 5</span>
+            <p>Esto es imposible, ya que nunca puede ser cierto que 0 sea igual a 5. En este caso, el sistema no tiene
+                solución.</p>
+
+            <h3>2. Dos ecuaciones con los mismos coeficientes pero diferentes términos independientes:</h3>
+            <p>Si dos ecuaciones tienen los mismos coeficientes para las variables, pero diferentes términos
+                independientes, significa que estas ecuaciones representan rectas o planos paralelos que nunca se
+                cruzan.</p>
+            <p>Ejemplo:</p>
+            <span>2x + 3y = 5<br>2x + 3y = 7</span>
+            <p>Estas ecuaciones son paralelas y no tienen puntos en común, lo que también provoca que el sistema no
+                tenga solución.</p>
+        </div>
+        {% endif %}
+        <div class="volver">
+            <a href="{{ url_for('calculadora_gauss') }}">Volver a la calculadora</a>
+        </div>
+
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function mostrarProcedimiento() {
+        const mostrarProcedimiento = document.getElementById("mostrarProcedimiento");
+        mostrarProcedimiento.style.display = "none";
+        const ocultarProcedimiento = document.getElementById("ocultarProcedimiento");
+        ocultarProcedimiento.style.display = "flex";
+        const procedimiento = document.getElementById("procedimiento");
+        procedimiento.style.display = "block";
+        
+    }
+    mostrarProcedimiento();
+
+    function ocultarProcedimiento() {
+        const mostrarProcedimiento = document.getElementById("mostrarProcedimiento");
+        mostrarProcedimiento.style.display = "flex";
+        const ocultarProcedimiento = document.getElementById("ocultarProcedimiento");
+        ocultarProcedimiento.style.display = "none";
+        const procedimiento = document.getElementById("procedimiento");
+        procedimiento.style.display = "none";
+    }
+</script>
+{% endblock %}

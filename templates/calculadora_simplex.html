@@ -1,0 +1,210 @@
+{% extends "layout.html" %}
+
+{% block title %}Método Simplex - Calculadora{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/calculadora.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="calculadora">
+    <div>
+        <h1>Calculadora Simplex</h1>
+        <form action="/solucion_simplex" method="POST" id="formulario">
+            <div id="form_modelo">
+                <label for="numero_variables">Ingrese el numéro de variables:</label>
+                <div class="tamaño_matriz">
+                    <input type="number" name="numero_variables" id="numero_variables" aria-label="numero_variables"
+                        required>
+                </div>
+                <label for="numero_restricciones">Ingrese el numéro de restricciones:</label>
+                <div class="tamaño_matriz">
+                    <input type="number" name="numero_restricciones" id="numero_restricciones"
+                        aria-label="numero_restricciones" required>
+                </div>
+                <button type="button" onclick="generarCampos()">Generar Modelo</button>
+            </div>
+
+
+            <div id="matriz_inputs" class="matriz_inputs"></div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function generarCampos() {
+        const formModelo = document.getElementById("form_modelo");
+        const numero_filas = parseInt(document.getElementById("numero_restricciones").value);
+        const numero_columnas = parseInt(document.getElementById("numero_variables").value);
+
+        const contenedor = document.getElementById("matriz_inputs");
+
+        if (isNaN(numero_filas) || isNaN(numero_columnas)) {
+            contenedor.innerHTML = "";
+            return;
+        }
+
+        // Limpiar contenedor para generar nuevos campos
+        formModelo.style.display = "none";
+        contenedor.innerHTML = "";
+
+        const tituloObjetivo = document.createElement("h2");
+        tituloObjetivo.innerText = "Objetivo";
+        contenedor.appendChild(tituloObjetivo);
+
+        const objetivo = document.createElement("select");
+        objetivo.name = "objetivo";
+        objetivo.id = "objetivo";
+        objetivo.required = true;
+        objetivo.title = "Seleccionar objetivo";
+
+        ["Maximizar", "Minimizar"].forEach(value => {
+            const option = document.createElement("option");
+            option.value = value;
+            option.innerText = value;
+            objetivo.appendChild(option);
+        });
+
+        contenedor.appendChild(objetivo);
+
+        // Crear la fila para la función objetivo
+        const tituloFuncionObjetivo = document.createElement("h3");
+        tituloFuncionObjetivo.innerText = "Función Objetivo";
+        const funcionObjetivo = document.createElement("table");
+        const filaFuncionObjetivo = document.createElement("tr");
+
+        for (let j = 0; j < numero_columnas; j++) {
+            const celda = document.createElement("td");
+
+            const input = document.createElement("input");
+            input.type = "number";
+            input.name = `funcion_objetivo_x${j}`;
+            input.id = `input_funcion_objetivo_x${j}`;
+            input.required = true;
+
+            const label = document.createElement("label");
+            label.innerText = `x${j + 1}` + (j < numero_columnas - 1 ? " + " : "");
+            label.htmlFor = input.id;
+
+            celda.appendChild(input);
+            celda.appendChild(label);
+            filaFuncionObjetivo.appendChild(celda);
+        }
+
+
+        funcionObjetivo.appendChild(filaFuncionObjetivo);
+        contenedor.appendChild(tituloFuncionObjetivo);
+        contenedor.appendChild(funcionObjetivo);
+
+        // Crear la tabla para las restricciones
+        const tablaRestricciones = document.createElement("table");
+        const tituloRestricciones = document.createElement("h4");
+
+        tituloRestricciones.innerText = "Restricciones";
+        contenedor.appendChild(tituloRestricciones);
+
+        for (let i = 0; i < numero_filas; i++) {
+            const fila = document.createElement("tr");
+
+            // Crear inputs para variables de cada restricción
+            for (let j = 0; j < numero_columnas; j++) {
+                const celda = document.createElement("td");
+
+                const input = document.createElement("input");
+                input.type = "number";
+                input.name = `matriz_${i}_${j}`;
+                input.id = `input_${i}_${j}`;
+                input.required = true;
+
+                const label = document.createElement("label");
+                label.innerText = `x${j + 1}` + (j < numero_columnas - 1 ? " + " : "");
+                label.htmlFor = input.id;
+
+                celda.appendChild(input);
+                celda.appendChild(label);
+                fila.appendChild(celda);
+            }
+
+            const celdaRestriccion = document.createElement("td");
+            const select = document.createElement("select");
+            select.name = `tipo_restriccion_${i}`;
+            select.id = `select_restriccion_${i}`;
+            select.required = true;
+
+            ["<="].forEach(value => {
+                const option = document.createElement("option");
+                option.value = value;
+                option.innerText = value;
+                select.appendChild(option);
+            });
+
+            celdaRestriccion.appendChild(select);
+            fila.appendChild(celdaRestriccion);
+
+            // Término independiente 'b' de cada restricción
+            const celdaB = document.createElement("td");
+            const inputB = document.createElement("input");
+            inputB.type = "number";
+            inputB.name = `matriz_${i}_b`;
+            inputB.id = `input_b_${i}`;
+            inputB.required = true;
+
+            const labelB = document.createElement("label");
+            labelB.innerText = "b";
+            labelB.htmlFor = inputB.id;
+
+            celdaB.appendChild(inputB);
+            celdaB.appendChild(labelB);
+            fila.appendChild(celdaB);
+
+            tablaRestricciones.appendChild(fila);
+        }
+
+        contenedor.appendChild(tablaRestricciones);
+
+        // Crear el botón para enviar
+        const botonEnviar = document.createElement("button");
+        botonEnviar.type = "submit";
+        botonEnviar.innerText = "Resolver Matriz";
+        contenedor.appendChild(botonEnviar);
+
+        const botonEditar = document.createElement("button");
+        botonEditar.type = "button";
+        botonEditar.id = "boton_editar";
+        botonEditar.innerText = "Editar Modelo";
+        botonEditar.onclick = function () {
+            window.location.reload();
+        };
+
+        contenedor.appendChild(botonEditar);
+
+
+    }
+
+    function enviarFormulario() {
+        document.getElementById("formulario").submit();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const calculadora = document.querySelector(".calculadora");
+
+        // Añadir la clase no-scroll al inicio de la animación
+        document.body.classList.add("no-scroll");
+
+        // Remover la clase no-scroll cuando la animación termine
+        calculadora.addEventListener("animationend", () => {
+            document.body.classList.remove("no-scroll");
+        });
+
+        const formulario = document.getElementById("formulario");
+        formulario.addEventListener('submit', function (event) {
+            event.preventDefault();
+            enviarFormulario();
+        });
+
+
+    });
+</script>
+{% endblock %}

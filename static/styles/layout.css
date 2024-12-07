@@ -1,0 +1,74 @@
+html {
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+header {
+    display: flex;
+    background-color: #121212;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    padding: 0 20px;
+    height: 60px !important;
+    align-items: center;
+    border-bottom: 2px solid #242323;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.logo {
+    margin-right: 15px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo del contenedor de la navegación */
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilo de los enlaces dentro de la navegación */
+.nav-links li {
+    margin: 0 15px;
+}
+
+/* Estilo para los enlaces */
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #1C4D19;
+}

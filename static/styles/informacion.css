@@ -1,0 +1,81 @@
+
+/* CSS para la animación */
+@keyframes slideIn {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.inicio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #121212;
+}
+
+.inicio :first-child {
+    font-family: "Space Mono", monospace;
+}
+
+
+.inicio h1 {
+    margin: 0;
+    font-size: 64px;
+    color: #eeecec;
+    margin-bottom: 20px;
+    font-family: "Space Mono", monospace;
+    animation: slideIn 1s ease-out;
+}
+
+.inicio h1:hover {
+    color: #b4b4b4;
+}
+
+span {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #8a8686;
+}
+
+.inicio p {
+    margin-top: 10px;
+    width: 50%;
+    font-size: 18px;
+    color: #f8f8f8;
+    margin: 0;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    animation: slideIn 1s ease-out;
+}
+
+.inicio p:hover {
+    color: #b4b4b4;
+}
+
+.inicio a {
+    margin-top: 40px;
+    padding: 10px 20px;
+    background-color: #d6d5d5;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    animation: slideIn 1s ease-out;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.inicio a:hover {
+    background-color: #1C4D19;
+    color: white;
+}
